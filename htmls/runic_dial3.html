@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Runic Dial</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c1810 50%, #1a1a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Cinzel', serif;
+            overflow: hidden;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .dial-container {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle at center, #3a2f2a 0%, #2a1f1a 70%, #1a0f0a 100%);
+            border-radius: 50%;
+            border: 8px solid #8b4513;
+            box-shadow:
+                0 0 50px rgba(139, 69, 19, 0.5),
+                inset 0 0 100px rgba(0, 0, 0, 0.8),
+                0 20px 40px rgba(0, 0, 0, 0.6);
+            animation: subtleGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes subtleGlow {
+            0% {
+                box-shadow: 0 0 50px rgba(139, 69, 19, 0.5), inset 0 0 100px rgba(0, 0, 0, 0.8), 0 20px 40px rgba(0, 0, 0, 0.6);
+            }
+
+            100% {
+                box-shadow: 0 0 60px rgba(139, 69, 19, 0.7), inset 0 0 100px rgba(0, 0, 0, 0.8), 0 20px 40px rgba(0, 0, 0, 0.6);
+            }
+        }
+
+        .inner-circle {
+            position: absolute;
+            top: 65px;
+            left: 65px;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle at center, #4a3530 0%, #3a251a 100%);
+            border-radius: 50%;
+            border: 4px solid #654321;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.9);
+        }
+
+        .center-stone {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at 30% 30%, #666 0%, #333 70%, #111 100%);
+            border-radius: 50%;
+            border: 3px solid #8b4513;
+            box-shadow:
+                0 0 20px rgba(139, 69, 19, 0.6),
+                inset 0 0 15px rgba(0, 0, 0, 0.8);
+        }
+
+        .rune-button {
+            position: absolute;
+            width: 56.25px;
+            height: 56.25px;
+            background: radial-gradient(circle at 30% 30%, #5a4a3a 0%, #3a2a1a 70%, #2a1a0a 100%);
+            border: 2px solid #8b4513;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 600;
+            color: #d4af37;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+            box-shadow:
+                0 4px 8px rgba(0, 0, 0, 0.5),
+                inset 0 0 10px rgba(0, 0, 0, 0.3);
+            transform-origin: center;
+        }
+
+        .rune-button.selected {
+            transform: scale(1.25) !important;
+            z-index: 2;
+        }
+
+        .rune-button:hover {
+            transform: scale(1.25);
+            box-shadow:
+                0 8px 16px rgba(0, 0, 0, 0.8),
+                inset 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .rune-button:active {
+            transform: scale(0.95);
+            box-shadow:
+                0 2px 4px rgba(0, 0, 0, 0.8),
+                inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .selected-rune {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #d4af37;
+            font-size: 24px;
+            font-weight: 600;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+            text-align: center;
+            z-index: 100;
+        }
+
+        .color-info {
+            position: fixed;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #d4af37;
+            font-size: 16px;
+            text-align: center;
+            opacity: 0.9;
+            z-index: 100;
+        }
+
+        .rune-name {
+            font-size: 18px;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        .rune-meaning {
+            font-size: 14px;
+            margin-top: 5px;
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        .mystical-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #d4af37;
+            border-radius: 50%;
+            opacity: 0;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: translateY(0px) scale(0);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: translateY(-30px) scale(1);
+            }
+        }
+
+        .ancient-whispers {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            font-size: 18px;
+            font-family: 'Cinzel', serif;
+            color: rgba(212, 175, 55, 0.7);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            opacity: 0;
+            transition: all 2s ease;
+            z-index: 50;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .ancient-whispers.show {
+            opacity: 1;
+            animation: whisperFloat 4s ease-in-out;
+        }
+
+        @keyframes whisperFloat {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) translateY(0px);
+                opacity: 0;
+            }
+
+            20%,
+            80% {
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) translateY(-20px);
+                opacity: 1;
+            }
+        }
+
+        .constellation-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .constellation-lines.active {
+            opacity: 0.3;
+        }
+
+        .constellation-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, rgba(212, 175, 55, 0.5) 50%, transparent 100%);
+            transform-origin: left center;
+            opacity: 0;
+            animation: drawLine 2s ease-in-out forwards;
+        }
+
+        @keyframes drawLine {
+            0% {
+                width: 0;
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+
+            100% {
+                width: var(--line-length);
+                opacity: 0.4;
+            }
+        }
+
+        .secret-counter {
+            position: fixed;
+            top: 10px;
+            right: 20px;
+            font-family: 'Cinzel', serif;
+            color: rgba(212, 175, 55, 0.6);
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .secret-counter.show {
+            opacity: 1;
+        }
+
+        .prophecy-scroll {
+            position: fixed;
+            bottom: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 150px;
+            background: linear-gradient(45deg, #3a2f1a 0%, #4a3f2a 50%, #3a2f1a 100%);
+            border: 3px solid #8b4513;
+            border-radius: 15px;
+            padding: 20px;
+            font-family: 'Cinzel', serif;
+            color: #d4af37;
+            text-align: center;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
+            transition: bottom 1s ease;
+            z-index: 200;
+        }
+
+        .prophecy-scroll.show {
+            bottom: 20px;
+        }
+
+        .prophecy-scroll .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            color: #8b4513;
+            transition: color 0.3s ease;
+        }
+
+        .prophecy-scroll .close-btn:hover {
+            color: #d4af37;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ancient-whispers" id="whispers"></div>
+    <div class="secret-counter" id="secretCounter">Ancient Sequence: <span id="sequenceCount">0</span>/7</div>
+
+    <div class="color-info" id="colorInfo">
+        <div>Click a rune to see its symbolic color</div>
+    </div>
+
+    <div class="sequence-display"
+        style="position: fixed; top: 100px; left: 50%; transform: translateX(-50%); color: #d4af37; font-family: 'Cinzel', serif; text-align: center; z-index: 100;">
+        <div id="currentSequence" style="margin-bottom: 10px;">Current Sequence: </div>
+        <div id="targetSequence" style="font-size: 0.9em; opacity: 0.7;">Ancient Code: ᚠ ᚹ ᛊ ᛞ ᛃ ᚨ ᛗ</div>
+    </div>
+
+    <div class="dial-container">
+        <div class="inner-circle"></div>
+        <div class="center-stone"></div>
+        <div class="constellation-lines" id="constellationLines"></div>
+        <div class="mystical-particles" id="particles"></div>
+
+        <!-- Rune buttons will be positioned here by JavaScript -->
+    </div>
+
+    <div class="prophecy-scroll" id="prophecyScroll">
+        <div class="close-btn" onclick="closeProphecy()">✕</div>
+        <div style="font-size: 16px; font-weight: 600; margin-bottom: 10px;">Ancient Prophecy Revealed</div>
+        <div id="prophecyText" style="font-size: 14px; line-height: 1.4;"></div>
+    </div>
+
+    <div class="selected-rune" id="selectedRune">
+        <div>Select a Rune</div>
+        <div class="rune-name"></div>
+        <div class="rune-meaning"></div>
+    </div>
+
+    <script>
+        const runes = [
+            { symbol: 'ᚠ', name: 'Fehu', meaning: 'Wealth, Cattle', color: '#FFD700', colorName: 'Gold', reasoning: 'Gold represents wealth and prosperity, the core meaning of Fehu', whisper: 'Gold flows to those who seek wisdom...' },
+            { symbol: 'ᚢ', name: 'Uruz', meaning: 'Wild Ox, Strength', color: '#8B4513', colorName: 'Saddle Brown', reasoning: 'Earth brown for the wild aurochs and primal strength', whisper: 'The strength of the wild ox awakens...' },
+            { symbol: 'ᚦ', name: 'Thurisaz', meaning: 'Giant, Thorn', color: '#DC143C', colorName: 'Crimson', reasoning: 'Deep red for thorns, blood, and the dangerous power of giants', whisper: 'Beware the thorns that guard great power...' },
+            { symbol: 'ᚨ', name: 'Ansuz', meaning: 'God, Divine Breath', color: '#4169E1', colorName: 'Royal Blue', reasoning: 'Sacred blue of the heavens where Odin dwells and divine wisdom flows', whisper: 'The All-Father whispers divine secrets...' },
+            { symbol: 'ᚱ', name: 'Raidho', meaning: 'Journey, Ride', color: '#32CD32', colorName: 'Lime Green', reasoning: 'Green of the path through forests and meadows on long journeys', whisper: 'Your path leads to destiny unknown...' },
+            { symbol: 'ᚲ', name: 'Kenaz', meaning: 'Torch, Knowledge', color: '#FF4500', colorName: 'Orange Red', reasoning: 'Bright flame orange of torches that illuminate darkness and bring knowledge', whisper: 'Knowledge burns brightest in darkness...' },
+            { symbol: 'ᚷ', name: 'Gebo', meaning: 'Gift, Sacrifice', color: '#FF1493', colorName: 'Deep Pink', reasoning: 'Pink of giving, love, and the emotional bonds created through gifts', whisper: 'True gifts bind souls across time...' },
+            { symbol: 'ᚹ', name: 'Wunjo', meaning: 'Joy, Perfection', color: '#FFFF00', colorName: 'Pure Yellow', reasoning: 'Bright yellow of sunshine, happiness, and perfect moments of joy', whisper: 'Joy is the light that conquers shadow...' },
+            { symbol: 'ᚺ', name: 'Hagalaz', meaning: 'Hail, Destruction', color: '#708090', colorName: 'Slate Gray', reasoning: 'Gray of storm clouds and destructive hailstones from the sky', whisper: 'From destruction, new worlds are born...' },
+            { symbol: 'ᚾ', name: 'Nauthiz', meaning: 'Need, Necessity', color: '#2F4F4F', colorName: 'Dark Slate Gray', reasoning: 'Dark gray of hardship, survival, and the harsh realities of need', whisper: 'Necessity forges the strongest steel...' },
+            { symbol: 'ᛁ', name: 'Isa', meaning: 'Ice, Stagnation', color: '#B0E0E6', colorName: 'Powder Blue', reasoning: 'Pale blue of frozen water and the stillness of winter ice', whisper: 'In stillness, the deepest truths emerge...' },
+            { symbol: 'ᛃ', name: 'Jera', meaning: 'Year, Harvest', color: '#DAA520', colorName: 'Goldenrod', reasoning: 'Golden yellow of ripe grain ready for harvest after a full year', whisper: 'The harvest rewards patient hearts...' },
+            { symbol: 'ᛇ', name: 'Eihwaz', meaning: 'Yew Tree, Death', color: '#800080', colorName: 'Purple', reasoning: 'Deep purple of mystery, death, and the sacred yew tree of the dead', whisper: 'Death is but a doorway to wisdom...' },
+            { symbol: 'ᛈ', name: 'Perthro', meaning: 'Dice Cup, Fate', color: '#4B0082', colorName: 'Indigo', reasoning: 'Dark indigo of the unknown, hidden fate within the dice cup', whisper: 'The dice of fate tumble in mystery...' },
+            { symbol: 'ᛉ', name: 'Algiz', meaning: 'Elk, Protection', color: '#ADFF2F', colorName: 'Green Yellow', reasoning: 'Bright green of protective forests where elk find sanctuary', whisper: 'Protection surrounds those who seek it...' },
+            { symbol: 'ᛊ', name: 'Sowilo', meaning: 'Sun, Victory', color: '#FFA500', colorName: 'Orange', reasoning: 'Brilliant orange of the victorious sun at dawn and dusk', whisper: 'Victory shines upon the worthy...' },
+            { symbol: 'ᛏ', name: 'Tiwaz', meaning: 'Tyr, Justice', color: '#C0C0C0', colorName: 'Silver', reasoning: 'Silver of Tyr\'s blade, justice, and honorable warfare', whisper: 'Justice cuts both ways, choose wisely...' },
+            { symbol: 'ᛒ', name: 'Berkano', meaning: 'Birch, Growth', color: '#98FB98', colorName: 'Pale Green', reasoning: 'Fresh pale green of new birch leaves and spring growth', whisper: 'New beginnings bloom eternal...' },
+            { symbol: 'ᛖ', name: 'Ehwaz', meaning: 'Horse, Movement', color: '#A0522D', colorName: 'Sienna', reasoning: 'Rich brown of horse coats and the earth beneath galloping hooves', whisper: 'Swift movement brings swift change...' },
+            { symbol: 'ᛗ', name: 'Mannaz', meaning: 'Man, Humanity', color: '#CD853F', colorName: 'Peru', reasoning: 'Warm tan of human skin, representing all of mankind', whisper: 'In unity, humanity finds strength...' },
+            { symbol: 'ᛚ', name: 'Laguz', meaning: 'Lake, Flow', color: '#00CED1', colorName: 'Dark Turquoise', reasoning: 'Turquoise of deep lake waters and the flow of life', whisper: 'Life flows like water, ever changing...' },
+            { symbol: 'ᛜ', name: 'Ingwaz', meaning: 'Ing, Fertility', color: '#228B22', colorName: 'Forest Green', reasoning: 'Deep green of fertile earth and abundant growing fields', whisper: 'From small seeds, great forests grow...' },
+            { symbol: 'ᛟ', name: 'Othala', meaning: 'Heritage, Home', color: '#8B0000', colorName: 'Dark Red', reasoning: 'Deep red of ancestral blood, family heritage, and hearth fires', whisper: 'Home is where the heart remembers...' },
+            { symbol: 'ᛞ', name: 'Dagaz', meaning: 'Day, Awakening', color: '#F0E68C', colorName: 'Khaki', reasoning: 'Soft khaki of dawn light and the awakening of a new day', whisper: 'Each dawn brings new possibilities...' }
+        ];
+
+        const secretSequence = [0, 7, 15, 23, 11, 3, 19]; // Fehu, Wunjo, Sowilo, Dagaz, Jera, Ansuz, Mannaz - "Wealth Joy Victory Day Harvest Divine Man"
+        let currentSequence = [];
+        let selectedRunes = [];
+
+        const prophecies = [
+            "The seeker of ancient wisdom shall find treasures beyond gold, for those who understand the old ways hold power over fate itself.",
+            "Seven runes of power align when wisdom guides the hand. The ancients smile upon your dedication to their sacred knowledge.",
+            "You have awakened the constellation of destiny. The threads of fate now weave differently around you, chosen one.",
+            "The old gods whisper approval through the mists of time. Your path now leads to mysteries yet undiscovered.",
+            "Ancient magic flows through your choices. You have proven worthy of the deepest runic secrets."
+        ];
+
+        function createRuneButtons() {
+            const container = document.querySelector('.dial-container');
+            const radius = 260; // Distance from center
+            const centerX = 290; // Center X of the dial
+            const centerY = 290; // Center Y of the dial
+
+            runes.forEach((rune, index) => {
+                const angle = (index * 360) / 24; // 24 runes, so 15 degrees each
+                const radian = (angle * Math.PI) / 180;
+
+                const x = centerX + radius * Math.cos(radian - Math.PI / 2);
+                const y = centerY + radius * Math.sin(radian - Math.PI / 2);
+
+                const button = document.createElement('div');
+                button.className = 'rune-button';
+                button.textContent = rune.symbol;
+                button.style.left = (x - 27) + 'px';
+                button.style.top = (y - 27) + 'px';
+
+                // Set the rune's unique color
+                const runeColor = rune.color;
+                const shadowColor = rune.color + '80'; // Add transparency for shadow
+
+                button.style.background = `radial-gradient(circle at 30% 30%, ${runeColor}40 0%, ${runeColor}20 70%, ${runeColor}10 100%)`;
+                button.style.borderColor = runeColor;
+                button.style.color = runeColor;
+                button.style.textShadow = `0 0 10px ${runeColor}`;
+                button.style.boxShadow = `
+                    0 4px 8px rgba(0, 0, 0, 0.5),
+                    inset 0 0 10px rgba(0, 0, 0, 0.3),
+                    0 0 15px ${shadowColor}
+                `;
+
+                // Store original styles for hover effect
+                button.dataset.color = runeColor;
+                button.dataset.shadowColor = shadowColor;
+
+                button.addEventListener('mouseenter', () => {
+                    button.style.background = `radial-gradient(circle at 30% 30%, ${runeColor}60 0%, ${runeColor}40 70%, ${runeColor}20 100%)`;
+                    button.style.textShadow = `0 0 15px ${runeColor}`;
+                    button.style.boxShadow = `
+                        0 8px 16px rgba(0, 0, 0, 0.8),
+                        inset 0 0 20px rgba(0, 0, 0, 0.2),
+                        0 0 25px ${runeColor}80
+                    `;
+                });
+
+                button.addEventListener('mouseleave', () => {
+                    if (!button.classList.contains('selected')) {
+                        button.style.background = `radial-gradient(circle at 30% 30%, ${runeColor}40 0%, ${runeColor}20 70%, ${runeColor}10 100%)`;
+                        button.style.textShadow = `0 0 10px ${runeColor}`;
+                        button.style.boxShadow = `
+                            0 4px 8px rgba(0, 0, 0, 0.5),
+                            inset 0 0 10px rgba(0, 0, 0, 0.3),
+                            0 0 15px ${shadowColor}
+                        `;
+                    }
+                });
+
+                button.addEventListener('click', () => selectRune(rune, button));
+
+                container.appendChild(button);
+            });
+        }
+
+        function selectRune(rune, buttonElement) {
+            const selectedRune = document.getElementById('selectedRune');
+            const colorInfo = document.getElementById('colorInfo');
+            const whispers = document.getElementById('whispers');
+            const currentSequenceDisplay = document.getElementById('currentSequence');
+
+            // If the button is already selected, unselect it
+            if (buttonElement.classList.contains('selected')) {
+                buttonElement.classList.remove('selected');
+                buttonElement.style.transform = 'scale(1)';
+                removeFromSequence(rune);
+                return;
+            }
+
+            selectedRune.innerHTML = `
+                <div style="font-size: 36px; color: ${rune.color}; text-shadow: 0 0 20px ${rune.color};">${rune.symbol}</div>
+                <div class="rune-name">${rune.name}</div>
+                <div class="rune-meaning">${rune.meaning}</div>
+            `;
+            buttonElement.classList.add('selected');
+            buttonElement.style.transform = 'scale(1.25)';
+            colorInfo.innerHTML = `
+                <div><strong>${rune.colorName}</strong> (${rune.color})</div>
+                <div style="font-size: 14px; margin-top: 5px; opacity: 0.8;">${rune.reasoning}</div>
+            `;
+            // Show ancient whisper
+            whispers.textContent = rune.whisper;
+            whispers.classList.add('show');
+            setTimeout(() => {
+                whispers.classList.remove('show');
+            }, 4000);
+
+            // Track secret sequence
+            const runeIndex = runes.findIndex(r => r.symbol === rune.symbol);
+            trackSecretSequence(runeIndex, buttonElement);
+
+            // Only highlight the selected button, don't remove other selections
+            const runeColor = rune.color;
+            buttonElement.style.background = `radial-gradient(circle at 30% 30%, ${runeColor}80 0%, ${runeColor}60 70%, ${runeColor}30 100%)`;
+            buttonElement.style.textShadow = `0 0 20px ${runeColor}`;
+            buttonElement.style.boxShadow = `
+                0 8px 16px rgba(0, 0, 0, 0.8),
+                inset 0 0 20px rgba(0, 0, 0, 0.2),
+                0 0 30px ${runeColor}
+            `;
+            // Scaling handled by .selected class
+
+            // Create mystical effect
+            createParticles(buttonElement, runeColor);
+        }
+
+        function removeFromSequence(rune) {
+            const runeIndex = runes.findIndex(r => r.symbol === rune.symbol);
+            const index = currentSequence.indexOf(runeIndex);
+            if (index > -1) {
+                currentSequence.splice(index, 1);
+                selectedRunes.splice(index, 1);
+            }
+            updateCurrentSequenceDisplay();
+        }
+
+        function updateCurrentSequenceDisplay() {
+            const currentSequenceDisplay = document.getElementById('currentSequence');
+            let sequenceText = 'Current Sequence: ';
+            currentSequence.forEach(index => {
+                sequenceText += runes[index].symbol + ' ';
+            });
+            currentSequenceDisplay.textContent = sequenceText;
+        }
+
+        function trackSecretSequence(runeIndex, buttonElement) {
+            if (currentSequence.includes(runeIndex)) {
+                // Rune already in sequence, don't add it again
+                return;
+            }
+
+            currentSequence.push(runeIndex);
+            selectedRunes.push(buttonElement);
+            updateCurrentSequenceDisplay();
+
+            const counter = document.getElementById('secretCounter');
+            const count = document.getElementById('sequenceCount');
+            count.textContent = currentSequence.length;
+            counter.classList.add('show');
+
+            // Check if the current sequence matches the start of the secret sequence
+            const isCorrectSoFar = currentSequence.every((value, index) => value === secretSequence[index]);
+
+            if (currentSequence.length === secretSequence.length && isCorrectSoFar) {
+                // Secret sequence completed!
+                setTimeout(() => {
+                    activateConstellation();
+                    showProphecy();
+                    counter.classList.remove('show');
+                }, 1000);
+            } else if (!isCorrectSoFar) {
+                // Wrong sequence, but don't reset - let the user experiment
+                const whispers = document.getElementById('whispers');
+                whispers.textContent = "The pattern shifts... try another way...";
+                whispers.classList.add('show');
+                setTimeout(() => whispers.classList.remove('show'), 3000);
+            }
+        } function activateConstellation() {
+            const constellationLines = document.getElementById('constellationLines');
+            constellationLines.innerHTML = '';
+
+            // Draw lines between the selected runes
+            for (let i = 0; i < selectedRunes.length - 1; i++) {
+                const start = selectedRunes[i];
+                const end = selectedRunes[i + 1];
+
+                const startRect = start.getBoundingClientRect();
+                const endRect = end.getBoundingClientRect();
+                const containerRect = document.querySelector('.dial-container').getBoundingClientRect();
+
+                const startX = startRect.left - containerRect.left + startRect.width / 2;
+                const startY = startRect.top - containerRect.top + startRect.height / 2;
+                const endX = endRect.left - containerRect.left + endRect.width / 2;
+                const endY = endRect.top - containerRect.top + endRect.height / 2;
+
+                const length = Math.sqrt((endX - startX) ** 2 + (endY - startY) ** 2);
+                const angle = Math.atan2(endY - startY, endX - startX) * (180 / Math.PI);
+
+                const line = document.createElement('div');
+                line.className = 'constellation-line';
+                line.style.left = startX + 'px';
+                line.style.top = startY + 'px';
+                line.style.transform = `rotate(${angle}deg)`;
+                line.style.setProperty('--line-length', length + 'px');
+                line.style.animationDelay = i * 0.3 + 's';
+
+                constellationLines.appendChild(line);
+            }
+
+            constellationLines.classList.add('active');
+
+            // Reset after a while
+            setTimeout(() => {
+                constellationLines.classList.remove('active');
+                currentSequence = [];
+                selectedRunes = [];
+            }, 10000);
+        }
+
+        function showProphecy() {
+            const prophecyScroll = document.getElementById('prophecyScroll');
+            const prophecyText = document.getElementById('prophecyText');
+
+            const randomProphecy = prophecies[Math.floor(Math.random() * prophecies.length)];
+            prophecyText.textContent = randomProphecy;
+
+            setTimeout(() => {
+                prophecyScroll.classList.add('show');
+            }, 2000);
+        }
+
+        function closeProphecy() {
+            const prophecyScroll = document.getElementById('prophecyScroll');
+            prophecyScroll.classList.remove('show');
+        }
+
+        function createParticles(source, color = '#d4af37') {
+            const particlesContainer = document.getElementById('particles');
+            const rect = source.getBoundingClientRect();
+            const containerRect = document.querySelector('.dial-container').getBoundingClientRect();
+
+            for (let i = 0; i < 12; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.background = color;
+                particle.style.boxShadow = `0 0 10px ${color}`;
+                particle.style.left = (rect.left - containerRect.left + rect.width / 2) + 'px';
+                particle.style.top = (rect.top - containerRect.top + rect.height / 2) + 'px';
+                particle.style.animationDelay = Math.random() * 2 + 's';
+                particle.style.transform = `translate(${(Math.random() - 0.5) * 80}px, ${(Math.random() - 0.5) * 80}px)`;
+
+                particlesContainer.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 4000);
+            }
+        }
+
+        // Initialize the dial
+        createRuneButtons();
+
+        // Add ambient particles
+        setInterval(() => {
+            if (Math.random() < 0.3) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 500 + 'px';
+                particle.style.top = Math.random() * 500 + 'px';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+
+                document.getElementById('particles').appendChild(particle);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 8000);
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>

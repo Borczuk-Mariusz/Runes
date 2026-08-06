@@ -1,0 +1,327 @@
+.dialContainer {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle at center,
+    #3a2f2a 0%,
+    #2a1f1a 70%,
+    #1a0f0a 100%
+  );
+  border-radius: 50%;
+  border: 8px solid #8b4513;
+  box-shadow:
+    0 0 50px rgba(139, 69, 19, 0.5),
+    inset 0 0 100px rgba(0, 0, 0, 0.8),
+    0 20px 40px rgba(0, 0, 0, 0.6);
+  animation: subtleGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes subtleGlow {
+  0% {
+    box-shadow:
+      0 0 50px rgba(139, 69, 19, 0.5),
+      inset 0 0 100px rgba(0, 0, 0, 0.8),
+      0 20px 40px rgba(0, 0, 0, 0.6);
+  }
+
+  100% {
+    box-shadow:
+      0 0 60px rgba(139, 69, 19, 0.7),
+      inset 0 0 100px rgba(0, 0, 0, 0.8),
+      0 20px 40px rgba(0, 0, 0, 0.6);
+  }
+}
+
+.innerCircle {
+  position: absolute;
+  top: 65px;
+  left: 65px;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle at center, #4a3530 0%, #3a251a 100%);
+  border-radius: 50%;
+  border: 4px solid #654321;
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.9);
+}
+
+.centerStone {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle at 30% 30%, #666 0%, #333 70%, #111 100%);
+  border-radius: 50%;
+  border: 3px solid #8b4513;
+  box-shadow:
+    0 0 20px rgba(139, 69, 19, 0.6),
+    inset 0 0 15px rgba(0, 0, 0, 0.8);
+}
+
+.runeButton {
+  position: absolute;
+  width: 56.25px;
+  height: 56.25px;
+  background: radial-gradient(
+    circle at 30% 30%,
+    #5a4a3a 0%,
+    #3a2a1a 70%,
+    #2a1a0a 100%
+  );
+  border: 2px solid #8b4513;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 600;
+  color: #d4af37;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.5),
+    inset 0 0 10px rgba(0, 0, 0, 0.3);
+  transform-origin: center;
+}
+
+.runeButton.selected {
+  transform: scale(1.25) !important;
+  z-index: 2;
+}
+
+.runeButton:hover {
+  transform: scale(1.25);
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.8),
+    inset 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.runeButton:active {
+  transform: scale(0.95);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.8),
+    inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.selectedRune {
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #d4af37;
+  font-size: 24px;
+  font-weight: 600;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+  text-align: center;
+  z-index: 100;
+}
+
+.colorInfo {
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #d4af37;
+  font-size: 16px;
+  text-align: center;
+  opacity: 0.9;
+  z-index: 100;
+}
+
+.runeName {
+  font-size: 18px;
+  margin-top: 5px;
+  opacity: 0.9;
+}
+
+.runeMeaning {
+  font-size: 14px;
+  margin-top: 5px;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.mysticalParticles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #d4af37;
+  border-radius: 50%;
+  opacity: 0;
+  animation: float 8s infinite ease-in-out;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateY(0px) scale(0);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: translateY(-30px) scale(1);
+  }
+}
+
+.ancientWhispers {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  font-size: 18px;
+  font-family: "Cinzel", serif;
+  color: rgba(212, 175, 55, 0.7);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  opacity: 0;
+  transition: all 2s ease;
+  z-index: 50;
+  text-align: center;
+  font-style: italic;
+}
+
+.ancientWhispers.show {
+  opacity: 1;
+  animation: whisperFloat 4s ease-in-out;
+}
+
+@keyframes whisperFloat {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0px);
+    opacity: 0;
+  }
+
+  20%,
+  80% {
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) translateY(-20px);
+    opacity: 1;
+  }
+}
+
+.constellationLines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.constellationLines.active {
+  opacity: 0.3;
+}
+
+.constellationLine {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212, 175, 55, 0.5) 50%,
+    transparent 100%
+  );
+  transform-origin: left center;
+  opacity: 0;
+  animation: drawLine 2s ease-in-out forwards;
+}
+
+@keyframes drawLine {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    width: var(--line-length);
+    opacity: 0.4;
+  }
+}
+
+.secretCounter {
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  font-family: "Cinzel", serif;
+  color: rgba(212, 175, 55, 0.6);
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.secretCounter.show {
+  opacity: 1;
+}
+
+.prophecyScroll {
+  position: fixed;
+  bottom: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 150px;
+  background: linear-gradient(45deg, #3a2f1a 0%, #4a3f2a 50%, #3a2f1a 100%);
+  border: 3px solid #8b4513;
+  border-radius: 15px;
+  padding: 20px;
+  font-family: "Cinzel", serif;
+  color: #d4af37;
+  text-align: center;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
+  transition: bottom 1s ease;
+  z-index: 200;
+}
+
+.prophecyScroll.show {
+  bottom: 20px;
+}
+
+.prophecyScroll .closeBtn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #8b4513;
+  transition: color 0.3s ease;
+}
+
+.prophecyScroll .closeBtn:hover {
+  color: #d4af37;
+}
+
+.sequenceDisplay {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #d4af37;
+  font-family: "Cinzel", serif;
+  text-align: center;
+  z-index: 100;
+}
+.absolute-center {
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
