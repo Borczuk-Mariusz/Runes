@@ -13,7 +13,7 @@ const Dial: React.FC<DialProps> = ({ children }) => {
                     animate-subtleGlow mx-auto"
     >
       <div
-        className="absolute top-[65px] left-[65px] w-[450px] h-[450px] rounded-full 
+        className="absolute top-[65px] left-[65px] w-[350px] h-[450px] rounded-full 
                     border-4 border-[#654321]
                     bg-[radial-gradient(circle_at_center,_#4a3530_0%,_#3a251a_100%)]
                     shadow-[inset_0_0_50px_rgba(0,0,0,0.9)]"

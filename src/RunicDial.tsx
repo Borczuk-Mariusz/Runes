@@ -1,28 +1,31 @@
 import { useState } from "react";
 import styles from "./RunicDial.module.css";
+import CenterStoneInfo from "./components/CenterStoneInfo";
+import ColorInfo from "./components/ColorInfo";
 import Constellation from "./components/Constellation";
 import Particles from "./components/Particles";
 import ProphecyScroll from "./components/ProphecyScroll";
 import RuneButton from "./components/RuneButton";
 import SecretCounter from "./components/SecretCounter";
-import Whispers from "./components/Whispers";
+import SelectedRuneDisplay from "./components/SelectedRuneDisplay";
+import SequenceDisplay from "./components/SequenceDisplay";
 import { runes } from "./runeData";
 import type { Rune } from "./types";
 
 export default function RunicDial() {
-  // Secret Sequence: Fehu, Wunjo, Sowilo, Dagaz, Jera, Ansuz, Mannaz
-  // Indices based on runeData array: 0, 7, 15, 23, 11, 3, 19
-  const secretSequence = [0, 7, 15, 23, 11, 3, 19];
-
+  // Secret Sequence: Fehu Jera Kenaz Dagaz Hagalaz Ingwaz Mannaz Ansuz Ehwaz
+  // ᚠ ᛃ ᚲ ᛞ ᚺ ᛜ ᛗ ᚨ ᛇ
+  const secretSequence = [0, 11, 5, 23, 8, 21, 19, 3, 12 ];
   const [selectedRunes, setSelectedRunes] = useState<Rune[]>([]);
-  // We track the sequence of INDICES for validation
+
   const [currentSequence, setCurrentSequence] = useState<number[]>([]);
   const [explosionSource, setExplosionSource] = useState<
     { x: number; y: number; color: string; id: number } | undefined
   >(undefined);
   const [whisperText, setWhisperText] = useState<string | null>(null);
-  const [prophecyVisible, setProphecyVisible] = useState(false);
+  const [prophecyVisible, setProphecyVisible] = useState(true);
   const [constellationActive, setConstellationActive] = useState(false);
+  const [isSolved, setIsSolved] = useState(false);
 
   // Position Helper
   const getRuneCenter = (index: number) => {
@@ -43,7 +46,7 @@ export default function RunicDial() {
   const handleRuneClick = (rune: Rune) => {
     const runeIndex = runes.findIndex((r) => r.symbol === rune.symbol);
 
-    // Check if already selected (toggle off)
+    // Check for selection
     if (selectedRunes.some((r) => r.symbol === rune.symbol)) {
       setSelectedRunes((prev) => prev.filter((r) => r.symbol !== rune.symbol));
 
@@ -60,16 +63,9 @@ export default function RunicDial() {
     setSelectedRunes((prev) => [...prev, rune]);
     setWhisperText(rune.whisper || null);
 
-    // Explosion effect coordinates
-    // rect variable removed as it was unused and replaced by getRuneCenter logic
-    // We need coordinates relative to the DIAL CONTAINER.
-    // Since we don't have a ref to container easily here without prop drilling or context,
-    // let's try to approximate or use the event target better.
-    // Actually, in RuneButton we positioned it absolutely efficiently.
-    // The Particles component expects coordinates.
-    // Let's use the standard math for the center of the button, which we know!
     const center = getRuneCenter(runeIndex);
-    // Add randomness handled in Particles, just give center.
+    
+    // Particle effect coordinates
     setExplosionSource({
       x: center.x,
       y: center.y,
@@ -82,7 +78,6 @@ export default function RunicDial() {
       const newSequence = [...currentSequence, runeIndex];
       setCurrentSequence(newSequence);
 
-      // Check if correct so far
       const isCorrectSoFar = newSequence.every(
         (val, idx) => val === secretSequence[idx],
       );
@@ -91,9 +86,9 @@ export default function RunicDial() {
         // Sequence Complete
         setTimeout(() => {
           setConstellationActive(true);
+          setIsSolved(true);
           setProphecyVisible(true);
 
-          // Reset after delay
           setTimeout(() => {
             setConstellationActive(false);
             setCurrentSequence([]);
@@ -101,9 +96,7 @@ export default function RunicDial() {
           }, 10000);
         }, 1000);
       } else if (!isCorrectSoFar) {
-        setWhisperText("The pattern shifts... try another way...");
-        // Optional: reset sequence immediately or let user figure it out?
-        // Original: "Wrong sequence, but don't reset - let the user experiment"
+        setWhisperText("It is not the way ");
       }
     }
   };
@@ -112,40 +105,23 @@ export default function RunicDial() {
 
   return (
     <>
-      <Whispers text={whisperText} />
       <SecretCounter
         count={currentSequence.length}
         total={secretSequence.length}
       />
 
-      <div className={styles.colorInfo}>
-        <div>Click a rune to see its symbolic color</div>
-        {lastSelectedRune && (
-          <>
-            <div style={{ marginTop: "10px" }}>
-              <strong>{lastSelectedRune.colorName}</strong> (
-              {lastSelectedRune.color})
-            </div>
-            <div style={{ fontSize: "14px", marginTop: "5px", opacity: 0.8 }}>
-              {lastSelectedRune.reasoning}
-            </div>
-          </>
-        )}
-      </div>
+      <ColorInfo
+        lastSelectedRune={lastSelectedRune}
+        hasSelectedRunes={selectedRunes.length > 0}
+      />
 
-      <div className={styles.sequenceDisplay}>
-        <div style={{ marginBottom: "10px" }}>
-          Current Sequence:{" "}
-          {currentSequence.map((idx) => runes[idx].symbol).join(" ")}
-        </div>
-        <div style={{ fontSize: "0.9em", opacity: 0.7 }}>
-          Ancient Code: ᚠ ᚹ ᛊ ᛞ ᛃ ᚨ ᛗ
-        </div>
-      </div>
+      <SequenceDisplay currentSequence={currentSequence} runes={runes} />
 
       <div className={styles.dialContainer}>
         <div className={styles.innerCircle}></div>
-        <div className={styles.centerStone}></div>
+        <div className={styles.centerStone}>
+          <CenterStoneInfo rune={lastSelectedRune} />
+        </div>
 
         <Constellation
           active={constellationActive}
@@ -167,28 +143,13 @@ export default function RunicDial() {
 
       <ProphecyScroll
         show={prophecyVisible}
-        onClose={() => setProphecyVisible(false)}
+        isSolved={isSolved}
       />
 
-      <div className={styles.selectedRune}>
-        {lastSelectedRune ? (
-          <>
-            <div
-              style={{
-                fontSize: "36px",
-                color: lastSelectedRune.color || "#d4af37",
-                textShadow: `0 0 20px ${lastSelectedRune.color || "#d4af37"}`,
-              }}
-            >
-              {lastSelectedRune.symbol}
-            </div>
-            <div className={styles.runeName}>{lastSelectedRune.name}</div>
-            <div className={styles.runeMeaning}>{lastSelectedRune.meaning}</div>
-          </>
-        ) : (
-          <div>Select a Rune</div>
-        )}
-      </div>
+      <SelectedRuneDisplay
+        lastSelectedRune={lastSelectedRune}
+        whisperText={whisperText}
+      />
     </>
   );
 }

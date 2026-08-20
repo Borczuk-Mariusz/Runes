@@ -108,11 +108,11 @@
 
 .selectedRune {
   position: fixed;
-  bottom: 50px;
+  bottom: 260px;
   left: 50%;
   transform: translateX(-50%);
   color: #d4af37;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
   text-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
   text-align: center;
@@ -277,39 +277,63 @@
 
 .prophecyScroll {
   position: fixed;
-  bottom: -200px;
+  bottom: -400px;
   left: 50%;
   transform: translateX(-50%);
-  width: 400px;
-  height: 150px;
+  width: 520px;
+  max-width: 90vw;
+  max-height: 220px;
   background: linear-gradient(45deg, #3a2f1a 0%, #4a3f2a 50%, #3a2f1a 100%);
   border: 3px solid #8b4513;
   border-radius: 15px;
-  padding: 20px;
+  padding: 16px 20px;
   font-family: "Cinzel", serif;
   color: #d4af37;
   text-align: center;
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
-  transition: bottom 1s ease;
+  transition: bottom 0.8s ease;
   z-index: 200;
+  overflow: hidden;
 }
 
 .prophecyScroll.show {
   bottom: 20px;
 }
 
-.prophecyScroll .closeBtn {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  cursor: pointer;
-  font-size: 18px;
-  color: #8b4513;
-  transition: color 0.3s ease;
+.prophecyScroll.minimized {
+  max-height: 54px !important;
+  padding: 14px 20px !important;
+  overflow: hidden;
+  transition: all 0.4s ease;
 }
 
-.prophecyScroll .closeBtn:hover {
-  color: #d4af37;
+.prophecyScroll .toggleBtn {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(58, 47, 26, 0.8);
+  border: 1.5px solid #8b4513;
+  color: #ffd700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  user-select: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  padding: 0;
+  outline: none;
+}
+
+.prophecyScroll .toggleBtn:hover {
+  background: rgba(139, 69, 19, 0.95);
+  border-color: #ffd700;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+  transform: scale(1.08);
 }
 
 .sequenceDisplay {

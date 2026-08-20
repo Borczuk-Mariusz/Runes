@@ -2,7 +2,7 @@
 set -euo pipefail
 
 APP_DIR="${1:-.}"
-PORT="${2:-3000}"
+PORT="${2:-2418}"
 
 cd "$APP_DIR"
 

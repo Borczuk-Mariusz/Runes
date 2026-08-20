@@ -1,237 +1,245 @@
 import type { Rune } from "./types";
-
 export const runes: Rune[] = [
   {
     symbol: "ᚠ",
     name: "Fehu",
-    meaning: "Wealth, Cattle",
+    meaning: "Wealth, Cattle, Mobile Property",
     color: "#FFD700",
     colorName: "Gold",
-    reasoning:
-      "Gold represents wealth and prosperity, the core meaning of Fehu",
-    whisper: "Gold flows to those who seek wisdom...",
+    reasoning: "Gold represents circulating wealth, prosperity, and the life force of cattle.",
+    whisper: "Wealth flows to those who share it wisely..."
   },
   {
     symbol: "ᚢ",
     name: "Uruz",
-    meaning: "Wild Ox, Strength",
+    meaning: "Wild Ox, Primal Strength, Health",
     color: "#8B4513",
     colorName: "Saddle Brown",
-    reasoning: "Earth brown for the wild aurochs and primal strength",
-    whisper: "The strength of the wild ox awakens...",
+    reasoning: "Earth brown for the untamed aurochs, representing raw, physical vitality.",
+    whisper: "The untamed strength of the wild ox awakens..."
   },
   {
     symbol: "ᚦ",
     name: "Thurisaz",
-    meaning: "Giant, Thorn",
+    meaning: "Thorn, Giant, Defensive Force",
     color: "#DC143C",
     colorName: "Crimson",
-    reasoning: "Deep red for thorns, blood, and the dangerous power of giants",
-    whisper: "Beware the thorns that guard great power...",
+    reasoning: "Deep red for the piercing thorn and the dangerous, chaotic power of the giants.",
+    whisper: "Beware the thorns that guard the sacred threshold..."
   },
   {
     symbol: "ᚨ",
     name: "Ansuz",
-    meaning: "God, Divine Breath",
+    meaning: "God, Divine Breath, Revelation",
     color: "#4169E1",
     colorName: "Royal Blue",
-    reasoning:
-      "Sacred blue of the heavens where Odin dwells and divine wisdom flows",
-    whisper: "The All-Father whispers divine secrets...",
+    reasoning: "Sacred blue of the heavens, representing Perun's breath and divine inspiration.",
+    whisper: "The All-Father whispers ancient secrets to the wind..."
   },
   {
     symbol: "ᚱ",
     name: "Raidho",
-    meaning: "Journey, Ride",
-    color: "#32CD32",
-    colorName: "Lime Green",
-    reasoning: "Green of the path through forests and meadows on long journeys",
-    whisper: "Your path leads to destiny unknown...",
+    meaning: "Journey, Ride, Cosmic Order",
+    color: "#556B2F",
+    colorName: "Dark Olive Green",
+    reasoning: "Earthy green of the forest path and the rhythm of a steady, purposeful journey.",
+    whisper: "Your path aligns with the rhythm of the cosmos..."
   },
   {
     symbol: "ᚲ",
     name: "Kenaz",
-    meaning: "Torch, Knowledge",
-    color: "#FF4500",
-    colorName: "Orange Red",
-    reasoning:
-      "Bright flame orange of torches that illuminate darkness and bring knowledge",
-    whisper: "Knowledge burns brightest in darkness...",
+    meaning: "Torch, Illumination, Fire",
+    color: "#FF8C00",
+    colorName: "Dark Orange",
+    reasoning: "The focused, controlled flame of a torch, representing crafted knowledge and revelation.",
+    whisper: "The torch of knowledge banishes the shadows of ignorance..."
   },
   {
     symbol: "ᚷ",
     name: "Gebo",
-    meaning: "Gift, Sacrifice",
+    meaning: "Gift, Partnership, Balance",
     color: "#FF1493",
     colorName: "Deep Pink",
-    reasoning:
-      "Pink of giving, love, and the emotional bonds created through gifts",
-    whisper: "True gifts bind souls across time...",
+    reasoning: "Vibrant pink representing the blood-ties, love, and sacred bonds forged through exchange.",
+    whisper: "A gift given freely binds souls across time..."
   },
   {
     symbol: "ᚹ",
     name: "Wunjo",
-    meaning: "Joy, Perfection",
-    color: "#FFFF00",
-    colorName: "Pure Yellow",
-    reasoning:
-      "Bright yellow of sunshine, happiness, and perfect moments of joy",
-    whisper: "Joy is the light that conquers shadow...",
+    meaning: "Joy, Harmony, Perfection",
+    color: "#FFDF00",
+    colorName: "Golden Yellow",
+    reasoning: "Bright, warm yellow of sunshine, representing perfect harmony and spiritual joy.",
+    whisper: "Joy is the light that conquers all shadows..."
   },
   {
     symbol: "ᚺ",
     name: "Hagalaz",
-    meaning: "Hail, Destruction",
+    meaning: "Hail, Destruction, Uncontrollable Force",
     color: "#708090",
     colorName: "Slate Gray",
-    reasoning: "Gray of storm clouds and destructive hailstones from the sky",
-    whisper: "From destruction, new worlds are born...",
+    reasoning: "Cold gray of storm clouds and destructive hail, representing nature's raw, unshaped force.",
+    whisper: "From the shattering storm, the new world is forged..."
   },
   {
     symbol: "ᚾ",
     name: "Nauthiz",
-    meaning: "Need, Necessity",
+    meaning: "Need, Constraint, Friction",
     color: "#2F4F4F",
     colorName: "Dark Slate Gray",
-    reasoning:
-      "Dark gray of hardship, survival, and the harsh realities of need",
-    whisper: "Necessity forges the strongest steel...",
+    reasoning: "Dark, heavy gray of hardship and the friction that sparks the fire of survival.",
+    whisper: "Necessity and friction forge the strongest steel..."
   },
   {
     symbol: "ᛁ",
     name: "Isa",
-    meaning: "Ice, Stagnation",
+    meaning: "Ice, Stillness, Focus",
     color: "#B0E0E6",
     colorName: "Powder Blue",
-    reasoning: "Pale blue of frozen water and the stillness of winter ice",
-    whisper: "In stillness, the deepest truths emerge...",
+    reasoning: "Pale, crystalline blue of frozen water, representing absolute stillness and paused potential.",
+    whisper: "In perfect stillness, the deepest truths emerge..."
   },
   {
     symbol: "ᛃ",
     name: "Jera",
-    meaning: "Year, Harvest",
+    meaning: "Year, Harvest, Cycle",
     color: "#DAA520",
     colorName: "Goldenrod",
-    reasoning:
-      "Golden yellow of ripe grain ready for harvest after a full year",
-    whisper: "The harvest rewards patient hearts...",
+    reasoning: "Rich golden yellow of ripe grain, representing the reward of patience and natural cycles.",
+    whisper: "The harvest rewards those who respect the seasons..."
   },
   {
     symbol: "ᛇ",
     name: "Eihwaz",
-    meaning: "Yew Tree, Death",
-    color: "#800080",
-    colorName: "Purple",
-    reasoning:
-      "Deep purple of mystery, death, and the sacred yew tree of the dead",
-    whisper: "Death is but a doorway to wisdom...",
+    meaning: "Yew Tree, Death, World Tree",
+    color: "#8B008B",
+    colorName: "Dark Magenta",
+    reasoning: "Deep, mystical purple of the underworld and the sacred yew, bridging life and death.",
+    whisper: "Death is but a doorway; the roots hold fast..."
   },
   {
     symbol: "ᛈ",
     name: "Perthro",
-    meaning: "Dice Cup, Fate",
+    meaning: "Change, Mystery, Fate",
     color: "#4B0082",
     colorName: "Indigo",
-    reasoning: "Dark indigo of the unknown, hidden fate within the dice cup",
-    whisper: "The dice of fate tumble in mystery...",
+    reasoning: "Dark, hidden indigo of the void, representing the unknown mechanics of wyrd (fate).",
+    whisper: "The dice of fate tumble in the deep mystery..."
   },
   {
     symbol: "ᛉ",
     name: "Algiz",
-    meaning: "Elk, Protection",
-    color: "#ADFF2F",
-    colorName: "Green Yellow",
-    reasoning: "Bright green of protective forests where elk find sanctuary",
-    whisper: "Protection surrounds those who seek it...",
+    meaning: "Sedge Grass, Elk, Protection",
+    color: "#6B8E23",
+    colorName: "Olive Drab",
+    reasoning: "Resilient marsh green of sedge grass and the protective, reaching antlers of the elk.",
+    whisper: "The gods' protection shields those who stand tall..."
   },
   {
     symbol: "ᛊ",
     name: "Sowilo",
-    meaning: "Sun, Victory",
+    meaning: "Sun, Victory, Life Force",
     color: "#FFA500",
     colorName: "Orange",
-    reasoning: "Brilliant orange of the victorious sun at dawn and dusk",
-    whisper: "Victory shines upon the worthy...",
+    reasoning: "Brilliant, radiant orange of the life-giving sun, representing ultimate victory and energy.",
+    whisper: "The sun's victory shines upon the worthy..."
   },
   {
     symbol: "ᛏ",
     name: "Tiwaz",
-    meaning: "Tyr, Justice",
+    meaning: "Svarog, Justice, Honor",
     color: "#C0C0C0",
     colorName: "Silver",
-    reasoning: "Silver of Tyr's blade, justice, and honorable warfare",
-    whisper: "Justice cuts both ways, choose wisely...",
+    reasoning: "Cool silver of Svarog's sacrificed hand and the sharp, unbiased edge of justice.",
+    whisper: "Justice cuts both ways; stand firm in honor..."
   },
   {
     symbol: "ᛒ",
     name: "Berkano",
-    meaning: "Birch, Growth",
+    meaning: "Birch, Growth, Renewal",
     color: "#98FB98",
     colorName: "Pale Green",
-    reasoning: "Fresh pale green of new birch leaves and spring growth",
-    whisper: "New beginnings bloom eternal...",
+    reasoning: "Fresh, tender green of spring birch leaves, representing new life and gentle growth.",
+    whisper: "From the bare earth, new beginnings bloom..."
   },
   {
     symbol: "ᛖ",
     name: "Ehwaz",
-    meaning: "Horse, Movement",
+    meaning: "Horse, Movement, Trust",
     color: "#A0522D",
     colorName: "Sienna",
-    reasoning:
-      "Rich brown of horse coats and the earth beneath galloping hooves",
-    whisper: "Swift movement brings swift change...",
+    reasoning: "Rich, grounded brown of the horse's coat, representing partnership and forward momentum.",
+    whisper: "Swift movement brings change; trust the ride..."
   },
   {
     symbol: "ᛗ",
     name: "Mannaz",
-    meaning: "Man, Humanity",
+    meaning: "Human, Society, Self",
     color: "#CD853F",
     colorName: "Peru",
-    reasoning: "Warm tan of human skin, representing all of mankind",
-    whisper: "In unity, humanity finds strength...",
+    reasoning: "Warm, earthy tan of humanity, representing our social bonds and collective consciousness.",
+    whisper: "In unity and self-awareness, mankind finds strength..."
   },
   {
     symbol: "ᛚ",
     name: "Laguz",
-    meaning: "Lake, Flow",
+    meaning: "Water, Lake, Intuition",
     color: "#00CED1",
     colorName: "Dark Turquoise",
-    reasoning: "Turquoise of deep lake waters and the flow of life",
-    whisper: "Life flows like water, ever changing...",
+    reasoning: "Deep, flowing turquoise of the ocean and lakes, representing the subconscious and emotional flow.",
+    whisper: "Life flows like water; trust your intuition..."
   },
   {
     symbol: "ᛜ",
     name: "Ingwaz",
-    meaning: "Ing, Fertility",
-    color: "#228B22",
-    colorName: "Forest Green",
-    reasoning: "Deep green of fertile earth and abundant growing fields",
-    whisper: "From small seeds, great forests grow...",
+    meaning: "Seed, Peace, Fertility",
+    color: "#006400",
+    colorName: "Dark Green",
+    reasoning: "Deep, fertile green of the earth and the hidden, gestating seed of Frey.",
+    whisper: "Within the seed, a great forest waits to grow..."
   },
   {
     symbol: "ᛟ",
     name: "Othala",
-    meaning: "Heritage, Home",
+    meaning: "Heritage, Estate, Ancestry",
     color: "#8B0000",
     colorName: "Dark Red",
-    reasoning: "Deep red of ancestral blood, family heritage, and hearth fires",
-    whisper: "Home is where the heart remembers...",
+    reasoning: "Deep, grounding red of ancestral blood, the hearth fire, and inherited legacy.",
+    whisper: "The hearth fire remembers the ancestors..."
   },
   {
     symbol: "ᛞ",
     name: "Dagaz",
-    meaning: "Day, Awakening",
-    color: "#F0E68C",
-    colorName: "Khaki",
-    reasoning: "Soft khaki of dawn light and the awakening of a new day",
-    whisper: "Each dawn brings new possibilities...",
-  },
+    meaning: "Day, Awakening, Breakthrough",
+    color: "#FFA07A",
+    colorName: "Light Salmon",
+    reasoning: "Soft, luminous dawn pink/orange representing the breaking of light and sudden realization.",
+    whisper: "Each dawn brings a breakthrough of light..."
+  }
 ];
 
 export const prophecies = [
-  "The seeker of ancient wisdom shall find treasures beyond gold, for those who understand the old ways hold power over fate itself.",
-  "Seven runes of power align when wisdom guides the hand. The ancients smile upon your dedication to their sacred knowledge.",
-  "You have awakened the constellation of destiny. The threads of fate now weave differently around you, chosen one.",
-  "The old gods whisper approval through the mists of time. Your path now leads to mysteries yet undiscovered.",
-  "Ancient magic flows through your choices. You have proven worthy of the deepest runic secrets.",
+  `Gold fields turn to ash,
+  Dawn shatters the peaceful dream,
+  Elder wisdom withers.`,
+];
+export const theTruth = [
+  `The herds grew fat on the blood of the earth. 
+  The people feasted in the long summer, believing the grain would always rise and the bellies would always fill like they used to do. 
+  They danced around fires that never dimmed, drunk on their own ease despite the horrors they had caused to others.  
+Then the sky split open.
+It was not a sunrise. It was a wound. The light that poured through was cold and sharp as a flint blade. Sun turned red and began to bleed.  
+The golden fields withered in a single breath. The cattle fell where they stood, their eyes bursting from within.  Eyes turned white like milk.
+The cycle of seasons snapped like a dry twig. There would be no winter rest. No spring hope. Only the end.
+
+Chaos ate the tribe. Neighbors tore at each other for the last rotting roots. The old songs died in throats choked with ash.
+On the highest peak, the Shaman stood alone. She did not pray to Perun for an answer in thunder or Veles for the underworld to escape the madness.
+She laughed. A dry, broken sound.
+She saw the truth that comfort had blinded them to. Her madness occurred to be the truth. 
+They called her a madwoman, a maniac, wicked witch. 
+And yet, "The End" was near, more at hand than anyone anticipated. 
+She knew the greed of mankind sickened the divine, but few last questions burned in her mind:
+Could all this be stopped?
+Could anyone prevent it? 
+Was she blessed with that knowledge to deliver the massage to a savior, or perhaps use it herself and become the One?`,
 ];
