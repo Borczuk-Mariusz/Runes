@@ -2,6 +2,10 @@
   position: relative;
   width: 600px;
   height: 600px;
+  max-width: 92vw;
+  max-height: 92vw;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
   background: radial-gradient(
     circle at center,
     #3a2f2a 0%,
@@ -35,14 +39,22 @@
 
 .innerCircle {
   position: absolute;
-  top: 65px;
-  left: 65px;
-  width: 450px;
-  height: 450px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  height: 75%;
   background: radial-gradient(circle at center, #4a3530 0%, #3a251a 100%);
   border-radius: 50%;
   border: 4px solid #654321;
   box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.9);
+}
+
+.ringLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 50%;
 }
 
 .centerStone {
@@ -62,6 +74,7 @@
 
 .runeButton {
   position: absolute;
+  pointer-events: auto;
   width: 56.25px;
   height: 56.25px;
   background: radial-gradient(
@@ -79,28 +92,31 @@
   font-weight: 600;
   color: #d4af37;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   text-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
   box-shadow:
     0 4px 8px rgba(0, 0, 0, 0.5),
     inset 0 0 10px rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%);
   transform-origin: center;
+  z-index: 5;
 }
 
 .runeButton.selected {
-  transform: scale(1.25) !important;
-  z-index: 2;
+  transform: translate(-50%, -50%) scale(1.25) !important;
+  z-index: 20;
 }
 
 .runeButton:hover {
-  transform: scale(1.25);
+  transform: translate(-50%, -50%) scale(1.25);
+  z-index: 15;
   box-shadow:
     0 8px 16px rgba(0, 0, 0, 0.8),
     inset 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
 .runeButton:active {
-  transform: scale(0.95);
+  transform: translate(-50%, -50%) scale(0.95);
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.8),
     inset 0 0 20px rgba(0, 0, 0, 0.5);

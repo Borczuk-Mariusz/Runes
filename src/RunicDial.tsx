@@ -5,7 +5,7 @@ import ColorInfo from "./components/ColorInfo";
 import Constellation from "./components/Constellation";
 import Particles from "./components/Particles";
 import ProphecyScroll from "./components/ProphecyScroll";
-import RuneButton from "./components/RuneButton";
+import RunicRing from "./components/RunicRing";
 import SecretCounter from "./components/SecretCounter";
 import SelectedRuneDisplay from "./components/SelectedRuneDisplay";
 import SequenceDisplay from "./components/SequenceDisplay";
@@ -27,11 +27,11 @@ export default function RunicDial() {
   const [constellationActive, setConstellationActive] = useState(false);
   const [isSolved, setIsSolved] = useState(false);
 
-  // Position Helper
+  // Position Helper aligned with modular percentage polar coordinates
   const getRuneCenter = (index: number) => {
-    const radius = 260;
-    const centerX = 290;
-    const centerY = 290;
+    const radius = 260; // 43.333% of 600
+    const centerX = 300;
+    const centerY = 300;
     const angle = (index * 360) / runes.length;
     const radian = (angle * Math.PI) / 180;
     const x = centerX + radius * Math.cos(radian - Math.PI / 2);
@@ -129,16 +129,12 @@ export default function RunicDial() {
         />
         <Particles explosionSource={explosionSource} />
 
-        {runes.map((rune, index) => (
-          <RuneButton
-            key={rune.symbol}
-            rune={rune}
-            index={index}
-            totalRunes={runes.length}
-            isSelected={selectedRunes.some((r) => r.symbol === rune.symbol)}
-            onClick={handleRuneClick}
-          />
-        ))}
+        <RunicRing
+          runes={runes}
+          selectedRunes={selectedRunes}
+          onRuneClick={handleRuneClick}
+          radiusPercent={43.333}
+        />
       </div>
 
       <ProphecyScroll

@@ -1,51 +1,39 @@
 import React from "react";
-import { runes } from "../runeData";
+import styles from "../RunicDial.module.css";
+import { runes as defaultRunes } from "../runeData";
 import type { RunicRingProps } from "../types";
-import RuneStone from "./RuneStone";
-
+import RuneButton from "./RuneButton";
 
 const RunicRing: React.FC<RunicRingProps> = ({
+  runes = defaultRunes,
   selectedRunes,
   onRuneClick,
+  radiusPercent = 43.333, // default ~260px / 600px radius
+  startAngle = -90,
 }) => {
-  const radius = 260;
-  const centerX = 300;
-  const centerY = 300;
+  const totalRunes = runes.length;
+  // Calculate dynamic button size so any length of runes fits snugly without overlap
+  const buttonSize = Math.max(36, Math.min(56.25, 1350 / Math.max(1, totalRunes)));
 
   return (
-    <>
+    <div className={styles.ringLayer}>
       {runes.map((rune, index) => {
         const isSelected = selectedRunes.some((r) => r.symbol === rune.symbol);
-
-        let x, y;
-
-        if (isSelected) {
-          // If selected, move to center (or slightly offset if multiple?)
-          // For now, let's move exactly to center as requested.
-          // If strictly to center, they will stack.
-          // Let's assume the "active" one is on top.
-          x = centerX;
-          y = centerY;
-        } else {
-          const angle = (index * 360) / runes.length;
-          const radian = (angle * Math.PI) / 180;
-          // - Math.PI / 2 to start from top
-          x = centerX + radius * Math.cos(radian - Math.PI / 2);
-          y = centerY + radius * Math.sin(radian - Math.PI / 2);
-        }
-
         return (
-          <RuneStone
-            key={rune.symbol}
+          <RuneButton
+            key={rune.symbol || index}
             rune={rune}
+            index={index}
+            totalRunes={totalRunes}
+            radiusPercent={radiusPercent}
+            startAngle={startAngle}
+            sizePx={buttonSize}
             isSelected={isSelected}
-            onClick={onRuneClick}
-            x={x}
-            y={y}
+            onClick={(r, el) => onRuneClick(r, el)}
           />
         );
       })}
-    </>
+    </div>
   );
 };
 

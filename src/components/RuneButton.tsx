@@ -9,18 +9,24 @@ export default function RuneButton({
   totalRunes,
   isSelected,
   onClick,
+  radiusPercent = 43.333,
+  startAngle = -90,
+  sizePx,
 }: RuneButtonProps) {
   const buttonRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Position calculation
-  const radius = 260;
-  const centerX = 290; // Relative to the 600x600 container
-  const centerY = 290;
-  const angle = (index * 360) / totalRunes;
-  const radian = (angle * Math.PI) / 180;
-  const x = centerX + radius * Math.cos(radian - Math.PI / 2);
-  const y = centerY + radius * Math.sin(radian - Math.PI / 2);
+  // Modular Angle & Percentage Polar Coordinates
+  const angleDeg = (index * 360) / totalRunes + startAngle;
+  const rad = (angleDeg * Math.PI) / 180;
+
+  // Position relative to 50% 50% center
+  const xPct = 50 + radiusPercent * Math.cos(rad);
+  const yPct = 50 + radiusPercent * Math.sin(rad);
+
+  // Dynamic button size scaling based on rune count if sizePx not explicitly set
+  const calculatedSize = sizePx || Math.max(36, Math.min(56.25, 1350 / totalRunes));
+  const fontSize = Math.max(18, Math.round(calculatedSize * 0.53));
 
   // Colors
   const runeColor = rune.color || "#d4af37";
@@ -44,8 +50,11 @@ export default function RuneButton({
     `,
     borderColor: runeColor,
     color: runeColor,
-    left: `${x - 27}px`,
-    top: `${y - 27}px`,
+    left: `${xPct.toFixed(4)}%`,
+    top: `${yPct.toFixed(4)}%`,
+    width: `${calculatedSize}px`,
+    height: `${calculatedSize}px`,
+    fontSize: `${fontSize}px`,
   };
 
   const hoverStyle = {

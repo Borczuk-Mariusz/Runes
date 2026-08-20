@@ -115,11 +115,18 @@ export interface RuneButtonProps {
   totalRunes: number;
   isSelected: boolean;
   onClick: (rune: Rune, element: HTMLElement) => void;
+  radiusPercent?: number;
+  startAngle?: number;
+  sizePx?: number;
 }
 
 export interface RunicRingProps {
+  runes?: Rune[];
   selectedRunes: Rune[];
-  onRuneClick: (rune: Rune) => void;
+  onRuneClick: (rune: Rune, element?: HTMLElement) => void;
+  radiusPercent?: number;
+  startAngle?: number;
+  showTrack?: boolean;
 }
 
 export interface SecretCounterProps {

@@ -4,8 +4,8 @@ export const runes: Rune[] = [
     symbol: "ᚠ",
     name: "Fehu",
     meaning: "Wealth, Cattle, Mobile Property",
-    color: "#FFD700",
-    colorName: "Gold",
+    color: "#FF7B85",
+    colorName: "Hot Pink",
     reasoning: "Gold represents circulating wealth, prosperity, and the life force of cattle.",
     whisper: "Wealth flows to those who share it wisely..."
   },
