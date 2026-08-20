@@ -9,15 +9,16 @@ import RunicRing from "./components/RunicRing";
 import SecretCounter from "./components/SecretCounter";
 import SelectedRuneDisplay from "./components/SelectedRuneDisplay";
 import SequenceDisplay from "./components/SequenceDisplay";
-import { runes } from "./runeData";
+import VariantSelector from "./components/VariantSelector";
+import { runes, puzzleVariants } from "./runeData";
 import type { Rune } from "./types";
 
 export default function RunicDial() {
-  // Secret Sequence: Fehu Jera Kenaz Dagaz Hagalaz Ingwaz Mannaz Ansuz Ehwaz
-  // ᚠ ᛃ ᚲ ᛞ ᚺ ᛜ ᛗ ᚨ ᛇ
-  const secretSequence = [0, 11, 5, 23, 8, 21, 19, 3, 12 ];
-  const [selectedRunes, setSelectedRunes] = useState<Rune[]>([]);
+  const [activeVariantIndex, setActiveVariantIndex] = useState(0);
+  const currentVariant = puzzleVariants[activeVariantIndex] || puzzleVariants[0];
+  const secretSequence = currentVariant.secretSequence;
 
+  const [selectedRunes, setSelectedRunes] = useState<Rune[]>([]);
   const [currentSequence, setCurrentSequence] = useState<number[]>([]);
   const [explosionSource, setExplosionSource] = useState<
     { x: number; y: number; color: string; id: number } | undefined
@@ -26,6 +27,21 @@ export default function RunicDial() {
   const [prophecyVisible, setProphecyVisible] = useState(true);
   const [constellationActive, setConstellationActive] = useState(false);
   const [isSolved, setIsSolved] = useState(false);
+
+  const [showSolution, setShowSolution] = useState(false);
+
+  const solutionRunes = currentVariant.secretSequence
+    .map((idx) => runes[idx]?.symbol)
+    .join(" ");
+
+  const handleSelectVariant = (index: number) => {
+    setActiveVariantIndex(index);
+    setSelectedRunes([]);
+    setCurrentSequence([]);
+    setIsSolved(false);
+    setConstellationActive(false);
+    setWhisperText(null);
+  };
 
   // Position Helper aligned with modular percentage polar coordinates
   const getRuneCenter = (index: number) => {
@@ -105,6 +121,13 @@ export default function RunicDial() {
 
   return (
     <>
+      <VariantSelector
+        activeVariantIndex={activeVariantIndex}
+        onSelectVariant={handleSelectVariant}
+        showSolution={showSolution}
+        onToggleSolution={setShowSolution}
+      />
+
       <SecretCounter
         count={currentSequence.length}
         total={secretSequence.length}
@@ -115,7 +138,12 @@ export default function RunicDial() {
         hasSelectedRunes={selectedRunes.length > 0}
       />
 
-      <SequenceDisplay currentSequence={currentSequence} runes={runes} />
+      <SequenceDisplay
+        currentSequence={currentSequence}
+        runes={runes}
+        secretMessage={solutionRunes}
+        showSolution={showSolution}
+      />
 
       <div className={styles.dialContainer}>
         <div className={styles.innerCircle}></div>
@@ -140,6 +168,8 @@ export default function RunicDial() {
       <ProphecyScroll
         show={prophecyVisible}
         isSolved={isSolved}
+        haiku={currentVariant.haiku}
+        truth={currentVariant.truth}
       />
 
       <SelectedRuneDisplay

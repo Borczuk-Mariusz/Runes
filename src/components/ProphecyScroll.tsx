@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { prophecies } from "../runeData";
+import { useState } from "react";
 import styles from "../RunicDial.module.css";
 import type { ProphecyScrollProps } from "../types";
 import ProphecyMessage from "./ProphecyMessage";
@@ -38,17 +37,10 @@ const ChevronUpIcon = () => (
 export default function ProphecyScroll({
   show = true,
   isSolved = false,
+  haiku,
+  truth,
 }: ProphecyScrollProps) {
-  const [text, setText] = useState("");
   const [isMinimized, setIsMinimized] = useState(false);
-
-  useEffect(() => {
-    if (show && !isSolved) {
-      const randomProphecy =
-        prophecies[Math.floor(Math.random() * prophecies.length)];
-      setText(randomProphecy);
-    }
-  }, [show, isSolved]);
 
   const toggleMinimize = () => {
     setIsMinimized((prev) => !prev);
@@ -83,7 +75,11 @@ export default function ProphecyScroll({
       </div>
       {!isMinimized && (
         <div id="prophecyText" style={{ fontSize: "14px", lineHeight: "1.4" }}>
-          {isSolved ? <TheTruth /> : <ProphecyMessage message={text} />}
+          {isSolved ? (
+            <TheTruth paragraphs={truth} />
+          ) : (
+            <ProphecyMessage message={haiku} />
+          )}
         </div>
       )}
     </div>

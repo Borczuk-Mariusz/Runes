@@ -99,10 +99,20 @@ export interface Particle {
   isExplosion?: boolean;
 }
 
+export interface PuzzleVariant {
+  id: string;
+  name: string;
+  haiku: string[];
+  secretSequence: number[];
+  truth: string[];
+}
+
 export interface ProphecyScrollProps {
   show?: boolean;
   onClose?: () => void;
   isSolved?: boolean;
+  haiku?: string[];
+  truth?: string[];
 }
 
 export interface TheTruthProps {
@@ -156,6 +166,7 @@ export interface SequenceDisplayProps {
   currentSequence: number[];
   runes: Rune[];
   secretMessage?: string;
+  showSolution?: boolean;
 }
 
 export interface SelectedRuneDisplayProps {
